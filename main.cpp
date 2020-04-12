@@ -71,13 +71,14 @@ int main(int argc, char* argv[]) {
                 print_IP(iph->ip_dst);
 
                 int ip_hl = (iph->ip_hl)*4;
-                int th_off = (tcph->th_x2)*4;
+                
 
                 tcph = (struct libnet_tcp_hdr *)(packet + sizeof(struct libnet_ethernet_hdr) + ip_hl);
 
                 printf("Src PORT = %d\n", ntohs(tcph->th_sport));
                 printf("Dst PORT = %d\n", ntohs(tcph->th_dport));
-
+                
+                int th_off = (tcph->th_x2)*4;
                 int payload_len = ntohs(iph->ip_len) - ip_hl - th_off;
                 int print_len = min(payload_len, 16);
                 for(int i=0; i<print_len; i++) {
